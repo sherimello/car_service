@@ -32,6 +32,16 @@ class Splash extends StatelessWidget {
       return textPainter.width;
     }
 
+    double getTextHeight(String text, TextStyle style) {
+      final textSpan = TextSpan(text: text, style: style);
+      final textPainter = TextPainter(
+        text: textSpan,
+        textDirection: TextDirection.ltr,
+      );
+      textPainter.layout(minWidth: 0, maxWidth: double.infinity);
+      return textPainter.height;
+    }
+
     return Obx(() => Scaffold(
           backgroundColor: Colors.black,
           body: SafeArea(
@@ -66,19 +76,23 @@ class Splash extends StatelessWidget {
                                         color: Colors.white.withOpacity(.55))) *
                                 .5,
                     bottom: shouldShowLoginUI.value
-                        ? size.height - (size.width * .077 + 34)
-                        : 17,
-                    child: SizedBox(
-                      height: size.width * .077,
-                      child: Text(
+                        ? size.height - (getTextHeight(
                         "headlights",
-                        style: TextStyle(
+                        TextStyle(
                             height: 0,
                             fontFamily: "Rounded_Elegance",
                             fontSize: size.width * .067,
                             fontWeight: FontWeight.w900,
-                            color: Colors.white.withOpacity(.55)),
-                      ),
+                            color: Colors.white.withOpacity(.55))) + 51)
+                        : 17,
+                    child: Text(
+                      "headlights",
+                      style: TextStyle(
+                          height: 0,
+                          fontFamily: "Rounded_Elegance",
+                          fontSize: size.width * .067,
+                          fontWeight: FontWeight.w900,
+                          color: Colors.white.withOpacity(.55)),
                     ),
                   ),
                   AnimatedOpacity(
