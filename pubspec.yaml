@@ -39,6 +39,10 @@ dependencies:
   firebase_core: ^3.6.0
   firebase_auth: ^5.3.1
   firebase_database: ^11.1.4
+  flutter_custom_carousel: ^0.1.0+1
+  drop_down_list: ^0.0.8
+  omni_datetime_picker: ^2.0.5
+  shared_preferences: ^2.3.2
 
 dev_dependencies:
   flutter_test:

@@ -1,17 +1,21 @@
 import 'dart:async';
 
+import 'package:car_service/controllers/loading_controller.dart';
+import 'package:car_service/functions/general_functions/ui_essentials.dart';
+import 'package:car_service/widgets/general%20widgets/loading_overlay.dart';
 import 'package:car_service/widgets/login%20widgets/login_register_ui.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class Splash extends StatelessWidget {
+class Splash extends StatelessWidget{
   const Splash({super.key});
 
   @override
   Widget build(BuildContext context) {
     var size = Get.size;
-    RxBool shouldShowHeadlights = false.obs, shouldShowLoginUI = false.obs;
+    RxBool shouldShowHeadlights = false.obs,
+        shouldShowLoginUI = false.obs;
 
     Timer timer = Timer(const Duration(seconds: 1), () {
       shouldShowHeadlights.value = true;
@@ -22,27 +26,8 @@ class Splash extends StatelessWidget {
       shouldShowHeadlights.value = false;
     });
 
-    double getTextWidth(String text, TextStyle style) {
-      final textSpan = TextSpan(text: text, style: style);
-      final textPainter = TextPainter(
-        text: textSpan,
-        textDirection: TextDirection.ltr,
-      );
-      textPainter.layout(minWidth: 0, maxWidth: double.infinity);
-      return textPainter.width;
-    }
-
-    double getTextHeight(String text, TextStyle style) {
-      final textSpan = TextSpan(text: text, style: style);
-      final textPainter = TextPainter(
-        text: textSpan,
-        textDirection: TextDirection.ltr,
-      );
-      textPainter.layout(minWidth: 0, maxWidth: double.infinity);
-      return textPainter.height;
-    }
-
-    return Obx(() => Scaffold(
+    return Obx(() =>
+        Scaffold(
           backgroundColor: Colors.black,
           body: SafeArea(
             child: SizedBox(
@@ -66,17 +51,17 @@ class Splash extends StatelessWidget {
                     left: shouldShowLoginUI.value
                         ? 17
                         : size.width * .5 -
-                            getTextWidth(
-                                    "headlights",
-                                    TextStyle(
-                                        height: 0,
-                                        fontFamily: "Rounded_Elegance",
-                                        fontSize: size.width * .067,
-                                        fontWeight: FontWeight.w900,
-                                        color: Colors.white.withOpacity(.55))) *
-                                .5,
+                        UiEssentials().getTextWidth(
+                            "headlights",
+                            TextStyle(
+                                height: 0,
+                                fontFamily: "Rounded_Elegance",
+                                fontSize: size.width * .067,
+                                fontWeight: FontWeight.w900,
+                                color: Colors.white.withOpacity(.55))) *
+                            .5,
                     bottom: shouldShowLoginUI.value
-                        ? size.height - (getTextHeight(
+                        ? size.height - (UiEssentials().getTextHeight(
                         "headlights",
                         TextStyle(
                             height: 0,
@@ -99,8 +84,8 @@ class Splash extends StatelessWidget {
                     opacity: shouldShowLoginUI.value ? 1 : 0,
                     duration: const Duration(seconds: 2),
                     curve: Curves.linearToEaseOut,
-                    child: LoginRegisterUi(),
-                  )
+                    child: const LoginRegisterUi(),
+                  ),
                 ],
               ),
             ),

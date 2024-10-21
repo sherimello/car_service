@@ -1,5 +1,7 @@
-import 'package:car_service/screens/splash.dart';
+import 'package:car_service/screens/home.dart';
+import 'package:car_service/screens/splash_sign_in_register.dart';
 import 'package:car_service/test.dart';
+import 'package:car_service/widgets/home/service_creation_ui.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -18,6 +20,9 @@ class MyApp extends StatelessWidget{
   Widget build(BuildContext context) {
     // TODO: implement build
     return GetMaterialApp(
+      theme: ThemeData(
+      colorSchemeSeed: Colors.white
+      ),
       debugShowCheckedModeBanner: false,
       home: const Splash(),
     );
