@@ -1,3 +1,4 @@
+import 'package:car_service/screens/home_admin.dart';
 import 'package:car_service/screens/home_for_client.dart';
 import 'package:car_service/screens/home_mechanic.dart';
 import 'package:car_service/screens/splash_sign_in_register.dart';
@@ -25,7 +26,7 @@ class MyApp extends StatelessWidget{
       colorSchemeSeed: Colors.white
       ),
       debugShowCheckedModeBanner: false,
-      home: const Splash(),
+      home: const HomeAdmin(),
     );
   }
 }

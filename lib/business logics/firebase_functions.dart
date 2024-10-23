@@ -108,7 +108,6 @@ class FirebaseFunctions extends GetxController {
       'services': serviceController.text,
       'drop_off_date': dateController.text,
       'status': "in queue"
-      // Add other user data as needed (e.g., username, profile picture URL)
     });
   }
 
@@ -134,13 +133,12 @@ class FirebaseFunctions extends GetxController {
             break;
           }
           i++;
-          // break;
         }
       }
     });
   }
 
-  Future<void> fetchOrderDataOfAllUser(dynamic ordersList, dynamic userIDs, dynamic orderIDs) async {
+  Future<void> fetchOrderDataOfAllUserAssignedToMechanic(dynamic ordersList, dynamic userIDs, dynamic orderIDs) async {
     String uid = await sharedPreferencesService.getString("uid");
     ordersList.clear;
     final DatabaseReference _database = FirebaseDatabase.instance
@@ -151,7 +149,6 @@ class FirebaseFunctions extends GetxController {
 
     _database.onValue.listen((event) {
       for(var snapshot in event.snapshot.children) {
-        // print(snapshot.value);
         orderIDs.add(snapshot.value);
       }
       final DatabaseReference db = FirebaseDatabase.instance
@@ -159,13 +156,10 @@ class FirebaseFunctions extends GetxController {
           .child('orders');
 
       for(var v in  orderIDs) {
-        // print(v.toString());
         db.onValue.listen((event) {
-          // print(event.snapshot.value);
           for(var snapshot in event.snapshot.children) {
             userIDs.add(snapshot.key);
             print(snapshot.key);
-            // print(snapshot.child(v.toString()).value);
             ordersList.add(snapshot.child(v.toString()).value);
           }
         });
@@ -173,10 +167,90 @@ class FirebaseFunctions extends GetxController {
     });
   }
 
-  updateStatus(String status, key, userID) async {
+  Future<void> fetchOrderDataOfAllUsers(dynamic ordersList, dynamic assigneeIDs, dynamic orderIDs, dynamic mechanicUIDs) async {
     String uid = await sharedPreferencesService.getString("uid");
-    List<Object?> services = [];
-    String user;
+    // List<String> uids = [];
+    ordersList.clear;
+    final DatabaseReference _database = FirebaseDatabase.instance
+        .ref()
+        .child('orders');
+
+    _database.onValue.listen((event) {
+      for(var snapshot in event.snapshot.children) {
+        for(var snapshot2 in snapshot.children) {
+          print(snapshot2.key);
+          orderIDs.add(snapshot2.key);
+          ordersList.add(snapshot2.value);
+        }
+      }
+      print("hhh: $orderIDs");
+      final DatabaseReference db = FirebaseDatabase.instance
+          .ref()
+          .child('assignments');
+      db.onValue.listen((event) {
+        for(int i = 0; i < ordersList.length; i++) {
+          if(event.snapshot.child(orderIDs[i]).exists) {
+            mechanicUIDs.add(event.snapshot.child(orderIDs[i]).value.toString());
+          }
+          else {
+            mechanicUIDs.add("NAN");
+          }
+        }
+        print(mechanicUIDs);
+
+        final DatabaseReference db2 = FirebaseDatabase.instance
+            .ref()
+            .child('users');
+
+        db2.onValue.listen((event) {
+          assigneeIDs.clear();
+          for(int i = 0; i < mechanicUIDs.length; i++) {
+            if(event.snapshot.child(mechanicUIDs[i]).exists) {
+              assigneeIDs.add("${event.snapshot
+                  .child(mechanicUIDs[i])
+                  .child("name")
+                  .value} (${event.snapshot
+                  .child(mechanicUIDs[i]).child("phone")
+                  .value})");
+            }
+            else {
+              assigneeIDs.add("NAN");
+            }
+          }
+        });
+        print(assigneeIDs);
+      });
+    });
+
+  }
+
+  reloadAsigneeData(dynamic assigneeIDs, mechanicUIDs) async{
+
+    assigneeIDs.clear();
+    mechanicUIDs.clear();
+
+    final DatabaseReference db2 = FirebaseDatabase.instance
+        .ref()
+        .child('users');
+
+    db2.onValue.listen((event) {
+      for(int i = 0; i < mechanicUIDs.length; i++) {
+        if(event.snapshot.child(mechanicUIDs[i]).exists) {
+          assigneeIDs.add("${event.snapshot
+              .child(mechanicUIDs[i])
+              .child("name")
+              .value} (${event.snapshot
+              .child(mechanicUIDs[i]).child("phone")
+              .value})".obs);
+        }
+        else {
+          assigneeIDs.add("NAN".obs);
+        }
+      }
+    });
+  }
+
+  updateStatus(String status, key, userID) async {
 
     final DatabaseReference db = FirebaseDatabase.instance
         .ref()
@@ -185,4 +259,33 @@ class FirebaseFunctions extends GetxController {
 
     db.update({'status' : status});
   }
+
+  assignMechanic(String orderID, mechanicID) async {
+
+    print("$orderID: $mechanicID");
+
+    final DatabaseReference db = FirebaseDatabase.instance
+        .ref()
+        .child('assignments');
+
+    db.update({orderID : mechanicID});
+  }
+
+  fetchAllMechanics(dynamic mechanics) async{
+    final DatabaseReference db = FirebaseDatabase.instance
+        .ref()
+        .child('users');
+
+    db.onValue.listen((event) {
+      for(var snapshot in event.snapshot.children) {
+        if(snapshot.child("role").value == "mechanic") {
+          mechanics.add("${snapshot.value}, uid: ${snapshot.key}");
+          // mechanics.add("${snapshot.child("name").value} (${snapshot.child("phone").value})");
+        }
+      }
+      print(mechanics);
+    });
+
+  }
+
 }

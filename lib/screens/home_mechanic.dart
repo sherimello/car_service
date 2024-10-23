@@ -5,8 +5,6 @@ import 'package:get/get.dart';
 
 import '../widgets/home/order_card.dart';
 
-int i = 0;
-
 class HomeMechanic extends StatelessWidget {
   const HomeMechanic({super.key});
 
@@ -28,41 +26,7 @@ class HomeMechanic extends StatelessWidget {
         color: Colors.white.withOpacity(.55));
 
 
-    firebaseFunctions.fetchOrderDataOfAllUser(ordersList, userIDs, orderIDs);
-
-    List<Widget> orders() {
-      List<Widget> w = [];
-      for (dynamic d in ordersList.reversed) {
-        w.add(GestureDetector(
-          onTap: () {
-            firebaseFunctions.updateStatus(
-                "ready to pick up", orderIDs[i].toString(), userIDs[i]);
-          },
-          child: OrderCard(
-              color: d["status"].toString() == "in queue"
-                  ? Colors.red
-                  : d["status"].toString() == "ongoing"
-                  ? Colors.orangeAccent
-                  : Colors.green,
-              carName: d['car_name']
-                  .toString()
-                  .replaceAll("[", "")
-                  .replaceAll("]", ""),
-              status: d["status"].toString(),
-              iconData: d["status"].toString() == "in queue"
-                  ? CupertinoIcons.arrow_2_squarepath
-                  : d["status"].toString() == "ongoing"
-                  ? CupertinoIcons.arrow_swap
-                  : CupertinoIcons.arrow_turn_right_up,
-              service: d["services"]
-                  .toString()
-                  .replaceAll("[", "")
-                  .replaceAll("]", "")),
-        ));
-        i++;
-      }
-      return w;
-    }
+    firebaseFunctions.fetchOrderDataOfAllUserAssignedToMechanic(ordersList, userIDs, orderIDs);
 
     return Obx(() =>
         Scaffold(
@@ -82,7 +46,7 @@ class HomeMechanic extends StatelessWidget {
                   child: Text.rich(
                       TextSpan(
                           children: [
-                            WidgetSpan(child: Icon(
+                            const WidgetSpan(child: Icon(
                               Icons.task_alt, color: Colors.white,),
                                 alignment: PlaceholderAlignment.middle),
                             TextSpan(
@@ -129,7 +93,7 @@ class HomeMechanic extends StatelessWidget {
                                           child: Text.rich(
                                               TextSpan(
                                                   children: [
-                                                    WidgetSpan(child: Icon(
+                                                    const WidgetSpan(child: Icon(
                                                       CupertinoIcons.arrow_2_squarepath,
                                                       color: Colors.red,),
                                                         alignment: PlaceholderAlignment
@@ -161,7 +125,7 @@ class HomeMechanic extends StatelessWidget {
                                           child: Text.rich(
                                               TextSpan(
                                                   children: [
-                                                    WidgetSpan(child: Icon(
+                                                    const WidgetSpan(child: Icon(
                                                       CupertinoIcons.arrow_swap,
                                                       color: Colors.orange,),
                                                         alignment: PlaceholderAlignment
