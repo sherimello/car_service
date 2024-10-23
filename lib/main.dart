@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget{
       colorSchemeSeed: Colors.white
       ),
       debugShowCheckedModeBanner: false,
-      home: const HomeAdmin(),
+      home: const Splash(),
     );
   }
 }
