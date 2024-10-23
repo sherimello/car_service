@@ -268,7 +268,14 @@ class FirebaseFunctions extends GetxController {
         .ref()
         .child('assignments');
 
-    db.update({orderID : mechanicID});
+    String key = db.push().key.toString();
+
+    db.update({orderID : mechanicID}).whenComplete(() {
+      final DatabaseReference db2 = FirebaseDatabase.instance
+          .ref()
+          .child('users').child(mechanicID).child("services");
+      db2.update({key: orderID});
+    });
   }
 
   fetchAllMechanics(dynamic mechanics) async{

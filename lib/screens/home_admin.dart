@@ -85,6 +85,13 @@ class HomeAdmin extends StatelessWidget {
                                   itemBuilder: (context, index) {
 
                                     String mechanic = mechanics[index].toString();
+                                    String name = "";
+                                    if(mechanic.contains("services")) {
+                                      name = mechanic.substring(mechanic.indexOf("name: ") + 6, mechanic.indexOf(", services:"));
+                                    }
+                                    else {
+                                      name = mechanic.substring(mechanic.indexOf("name: ") + 6, mechanic.indexOf(", em"));
+                                    }
 
                                     return  Column(
                                       mainAxisSize: MainAxisSize.min,
@@ -115,12 +122,12 @@ class HomeAdmin extends StatelessWidget {
                                             onTap: () async {
                                               print(index);
                                               await firebaseFunctions.assignMechanic(orderIDs[orderIndex].toString(), mechanic.substring(mechanic.indexOf("uid: ") + 5));
-                                              // ordersList.clear();
+                                              mechanics.clear();
                                               // firebaseFunctions.fetchOrderDataOfAllUsers(ordersList, assigneeIDs, orderIDs, mechanicUIDs);
                                               firebaseFunctions.reloadAsigneeData(assigneeIDs, mechanicUIDs);
                                               Navigator.pop(context);
                                             },
-                                            child: Text("${index + 1}. ${mechanic.substring(mechanic.indexOf("name: ") + 6, mechanic.indexOf(", services:"))} (${mechanic.substring(mechanic.indexOf("phone: ") + 7, mechanic.indexOf(", name:"))})",
+                                            child: Text("${index + 1}. ${name} (${mechanic.substring(mechanic.indexOf("phone: ") + 7, mechanic.indexOf(", name:"))})",
                                             style: TextStyle(
                                               fontWeight: FontWeight.w500,
                                               fontSize: size.width * 0.045,
