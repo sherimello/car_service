@@ -1,6 +1,7 @@
 import 'package:car_service/business%20logics/firebase_functions.dart';
 import 'package:car_service/controllers/loading_controller.dart';
-import 'package:car_service/screens/home.dart';
+import 'package:car_service/screens/home_for_client.dart';
+import 'package:car_service/screens/home_mechanic.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -219,17 +220,25 @@ class LoginRegisterUi extends StatelessWidget {
                         onTap: () {
                           loadingController.updateShouldShowLoadingOverlay();
                           isRegistering.value
-                              ? FirebaseFunctions().register(
-                                  mailController,
-                                  passwordController,
-                                  nameController,
-                                  phoneController,
-                                  role.value,
-                                  loadingController).whenComplete(() => Get.to(const Home()))
-                              : FirebaseFunctions().signInWithEmailAndPassword(
-                                  mailController,
-                                  passwordController,
-                                  loadingController).whenComplete(() => Get.to(const Home()));
+                              ? FirebaseFunctions()
+                                  .register(
+                                      mailController,
+                                      passwordController,
+                                      nameController,
+                                      phoneController,
+                                      role.value,
+                                      loadingController)
+                                  .whenComplete(() => Get.to(() =>
+                                      roleController.text == "client"
+                                          ? const HomeClient()
+                                          : const HomeMechanic()))
+                              : FirebaseFunctions()
+                                  .signInWithEmailAndPassword(
+                                      mailController, passwordController, loadingController)
+                                  .whenComplete(() => Get.to(() =>
+                                      roleController.text == "client"
+                                          ? const HomeClient()
+                                          : const HomeMechanic()));
                         },
                         child: Container(
                           width: size.width,

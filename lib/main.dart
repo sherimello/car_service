@@ -1,4 +1,5 @@
-import 'package:car_service/screens/home.dart';
+import 'package:car_service/screens/home_for_client.dart';
+import 'package:car_service/screens/home_mechanic.dart';
 import 'package:car_service/screens/splash_sign_in_register.dart';
 import 'package:car_service/test.dart';
 import 'package:car_service/widgets/home/service_creation_ui.dart';

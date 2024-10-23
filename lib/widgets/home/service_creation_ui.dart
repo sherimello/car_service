@@ -1,7 +1,7 @@
 import 'package:car_service/business%20logics/firebase_functions.dart';
 import 'package:car_service/controllers/loading_controller.dart';
 import 'package:car_service/data%20models/fixed_lists.dart';
-import 'package:car_service/screens/home.dart';
+import 'package:car_service/screens/home_for_client.dart';
 import 'package:car_service/widgets/general%20widgets/bottom_sheet_modal.dart';
 import 'package:car_service/widgets/general%20widgets/custom_textfield.dart';
 import 'package:car_service/widgets/general%20widgets/loading_overlay.dart';
