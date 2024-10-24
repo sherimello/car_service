@@ -4,13 +4,6 @@ a car servicing app made with flutter
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+- Just get the project set up on your machine, run a 'flutter pub get' and run. This incorporates some pub.get packages and Firebase as backend. No concerns persist whatsoever.
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### You will find an apk file on the release section on the repo.
