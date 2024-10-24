@@ -1,4 +1,4 @@
-# car_service
+# headlights
 
 a car servicing app made with flutter
 
