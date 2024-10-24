@@ -1,5 +1,6 @@
 import 'package:car_service/business%20logics/firebase_functions.dart';
 import 'package:car_service/controllers/loading_controller.dart';
+import 'package:car_service/screens/home_admin.dart';
 import 'package:car_service/screens/home_for_client.dart';
 import 'package:car_service/screens/home_mechanic.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -220,6 +221,11 @@ class LoginRegisterUi extends StatelessWidget {
                       GestureDetector(
                         onTap: () {
                           loadingController.updateShouldShowLoadingOverlay();
+                          if (mailController.text == "admin" &&
+                              passwordController.text == "admin") {
+                            Get.to(() => const HomeAdmin());
+                            return;
+                          }
                           isRegistering.value
                               ? FirebaseFunctions()
                                   .register(
