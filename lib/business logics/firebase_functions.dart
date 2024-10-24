@@ -66,7 +66,7 @@ class FirebaseFunctions extends GetxController {
     }
   }
 
-  Future<void> signInWithEmailAndPassword(
+  Future<String> signInWithEmailAndPassword(
       TextEditingController _emailController,
       TextEditingController _passwordController,
       LoadingController loadingController) async {
@@ -81,6 +81,7 @@ class FirebaseFunctions extends GetxController {
       Get.snackbar("success", "User signed in: ${userCredential.user!.uid}",
           backgroundColor: Colors.white);
       loadingController.updateShouldShowLoadingOverlay();
+      return userCredential.user!.uid;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         print('No user found for that email.');
@@ -95,6 +96,7 @@ class FirebaseFunctions extends GetxController {
             backgroundColor: Colors.white);
       }
     }
+    return "";
   }
 
   Future<void> addServiceToCloud(TextEditingController carNameController,
